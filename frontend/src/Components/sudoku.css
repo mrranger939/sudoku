@@ -1,0 +1,87 @@
+body {
+    background-color: #1c1c1c; /* Dark theme background */
+    color: #f0f0f0; /* Light text color */
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 100vh; /* Full viewport height */
+    margin: 0;
+    text-align: center;
+  }
+  /* For Chrome, Safari, Edge, Opera */
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+  }
+  
+  /* For Firefox */
+  input[type="number"] {
+      -moz-appearance: textfield;
+  }
+  
+  /* Styling for the Sudoku table */
+  .sudoku-table {
+    border-collapse: collapse; /* Collapse borders */
+    border: none; /* No outer table border */
+    margin: 0; /* No margin around table */
+  }
+  
+  .sudoku-cell {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Light grid border */
+  }
+  
+  /* Remove outer borders of the first row, first column, last row, and last column */
+  .sudoku-row:first-child .sudoku-cell {
+    border-top: none;
+  }
+  .sudoku-row:last-child .sudoku-cell {
+    border-bottom: none;
+  }
+  .sudoku-row .sudoku-cell:first-child {
+    border-left: none;
+  }
+  .sudoku-row .sudoku-cell:last-child {
+    border-right: none;
+  }
+  
+  .sudoku-input {
+    width: 100%;
+    height: 100%;
+    font-size: 18px;
+    text-align: center;
+    background-color: transparent; /* Transparent input */
+    color: #f0f0f0; /* Light text color */
+    border: none; /* Remove input borders */
+    outline: none; /* Remove default outline */
+  }
+  
+  /* Darker lines for 3x3 block boundaries */
+  .sudoku-cell:nth-child(3),
+  .sudoku-cell:nth-child(6) {
+    border-right: 2px solid rgba(255, 255, 255, 0.6); /* Darker vertical lines */
+  }
+  
+  .sudoku-row:nth-child(3) .sudoku-cell,
+  .sudoku-row:nth-child(6) .sudoku-cell {
+    border-bottom: 2px solid rgba(255, 255, 255, 0.6); /* Darker horizontal lines */
+  }
+  
+  /* Remove right border for the last column and bottom border for the last row */
+  .sudoku-row td:last-child {
+    border-right: none;
+  }
+  .sudoku-table tr:last-child td {
+    border-bottom: none;
+  }
+button{
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
