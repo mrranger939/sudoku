@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import "./sudoku.css"; // CSS file for styles
 import axios from "axios";
-import spinner from "../../public/loadd.gif"; // Add your loading spinner image path
+import spinner from "/loadd.gif"; // Add your loading spinner image path
+import ImageUploader from "./imageUploader";
+
 
 const SudokuTable = () => {
   // Initialize the grid state
@@ -144,7 +146,8 @@ const SudokuTable = () => {
             className="btn btn-outline-light mx-auto"
           >
             {isSolved ? "Reset Sudoku" : "Solve Sudoku"}
-          </button>
+          </button> <br />
+          <ImageUploader setGrid={setGrid}/>
         </>
       )}
     </>
