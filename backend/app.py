@@ -7,6 +7,7 @@ from tensorflow.keras.models import load_model
 import numpy as np
 import cv2
 import tempfile
+from sudoku_solver import solve_grid
 model = load_model("sudoku_digit_cnn.h5")
 
 """ Grid data work """
@@ -153,16 +154,13 @@ def predict_digits_from_cells(cells, model):
 def process_image():
     if 'image' not in request.files:
         return jsonify({'error': 'No image uploaded'}), 400
-
     file = request.files['image']
     temp_file = tempfile.NamedTemporaryFile(delete=False)
     file.save(temp_file.name)
-
     # Step: Run tillStep3
     warped = tillStep3(temp_file.name)
     if warped is None:
         return jsonify({'error': 'Failed to process image'}), 500
-
     cells = extract_cells(warped)
     digits = predict_digits_from_cells(cells, model)
     # grid = np.array(digits).reshape((9, 9)).tolist()
