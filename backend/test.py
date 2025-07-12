@@ -1,6 +1,7 @@
 from sudoku_solver import solve_grid
+from sudoku_image_solver import predictSudoku
 input_grid = [
-    ["1", "", "7", "", "", "6", "4", "5", ""],
+    ["1", "1", "7", "", "", "6", "4", "5", ""],
     ["", "2", "5", "3", "4", "", "", "", "8"],
     ["", "6", "", "", "", "1", "", "7", ""],
     ["", "5", "3", "", "", "", "", "2", "9"],
@@ -19,3 +20,4 @@ if result:
         print(row)
 else:
     print("Unsolvable grid")
+print(predictSudoku('./Sudoku.jpg'))
