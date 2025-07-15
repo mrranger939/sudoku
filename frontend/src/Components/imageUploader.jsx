@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import axios from "axios";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 function ImageUploader({setGrid, setLoading, isSolved, resetGrid, setWarning, warning, gotImage, setGotImage}) {
 
@@ -19,13 +20,13 @@ function ImageUploader({setGrid, setLoading, isSolved, resetGrid, setWarning, wa
     formData.append("image", file);
 
     try {
-      const res = await axios.post("http://localhost:8000/process-image", formData, {
+      const res = await axios.post(`${apiUrl}/process-image`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
 
-      const grid = res.data.grid; // e.g., [[5,3,0,...],[6,...],...]
+      const grid = res.data.grid; 
       console.log("Received Grid:", grid);
       setGrid(grid)
       setWarning(true)

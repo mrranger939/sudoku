@@ -3,7 +3,7 @@ import "./sudoku.css"; // CSS file for styles
 import axios from "axios";
 import spinner from "/loadd.gif"; // Add your loading spinner image path
 import ImageUploader from "./imageUploader";
-
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const SudokuTable = () => {
   // Initialize the grid state
@@ -50,7 +50,7 @@ const SudokuTable = () => {
       setLoading(true); 
       setErrorAlert(false);
       try {
-          const response = await axios.post('http://localhost:8000/solve', { grid });
+          const response = await axios.post(`${apiUrl}/solve`, { grid });
           const answer = response.data;
           console.log(answer)
           setGrid(answer)
