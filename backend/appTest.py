@@ -36,7 +36,7 @@ def solve_sudoku():
     grid = data.get('grid')
     result = solve_grid(grid)
     if result:
-        return jsonify([result]) , 200  
+        return jsonify(result) , 200  
     else:
         print('Sudoku cannot be solved')
         return jsonify({'error': 'Sudoku cannot be solved'}), 400

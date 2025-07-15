@@ -1,7 +1,8 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import axios from "axios";
 
-function ImageUploader({setGrid}) {
+function ImageUploader({setGrid, setLoading, isSolved, resetGrid, setWarning, warning, gotImage, setGotImage}) {
+
   const fileInputRef = useRef(null);
 
   const handleUploadClick = () => {
@@ -9,6 +10,8 @@ function ImageUploader({setGrid}) {
   };
 
   const handleFileChange = async (event) => {
+    setLoading(true)
+
     const file = event.target.files[0];
     if (!file) return;
 
@@ -25,16 +28,24 @@ function ImageUploader({setGrid}) {
       const grid = res.data.grid; // e.g., [[5,3,0,...],[6,...],...]
       console.log("Received Grid:", grid);
       setGrid(grid)
+      setWarning(true)
       // TODO: Pass grid to solver or render it
 
     } catch (error) {
       console.error("Upload failed:", error);
+      if (error.response && error.response.status === 400) {
+        setGotImage(true); 
+      }
+    }
+    finally{
+      setLoading(false)
     }
   };
 
   return (
+    <>
     <div style={{ marginTop: '2rem' }}>
-      <button onClick={handleUploadClick} className="btn btn-outline-light mx-auto">
+      <button onClick={handleUploadClick} className={`btn btn-outline-light mx-auto ${isSolved ? 'disabled' : ''}`}>
         Upload Image
       </button>
       <input
@@ -45,6 +56,8 @@ function ImageUploader({setGrid}) {
         style={{ display: "none" }}
       />
     </div>
+    </>
+    
   );
 }
 

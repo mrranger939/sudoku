@@ -7,6 +7,9 @@ import ImageUploader from "./imageUploader";
 
 const SudokuTable = () => {
   // Initialize the grid state
+  const [errorAlert, setErrorAlert] = useState(false);
+  const [gotImage, setGotImage] = useState(false)
+  const [warning, setWarning] = useState(false);
   const [grid, setGrid] = useState(
     Array(9)
       .fill()
@@ -44,29 +47,35 @@ const SudokuTable = () => {
   };
 
   const postSudoku = async () => {
-      setLoading(true); // Set loading to true when request starts
+      setLoading(true); 
+      setErrorAlert(false);
       try {
           const response = await axios.post('http://localhost:8000/solve', { grid });
           const answer = response.data;
-          setLoading(false);
-      for (let i = 0; i < answer.length; i++) {
-        await new Promise((resolve) => {
-          setTimeout(() => {
-            const newGrid = [...answer[i]];
-            const updatedGrid = newGrid.map((row, rowIndex) =>
-              row.map((cell, colIndex) =>
-                userInput[rowIndex][colIndex] ? grid[rowIndex][colIndex] : cell
-              )
-            );
-            setGrid(updatedGrid);
-            resolve();
-          }, 0.01);
-        });
-      }
+          console.log(answer)
+          setGrid(answer)
+      // for (let i = 0; i < answer.length; i++) {
+      //   await new Promise((resolve) => {
+      //     setTimeout(() => {
+      //       const newGrid = [...answer[i]];
+      //       const updatedGrid = newGrid.map((row, rowIndex) =>
+      //         row.map((cell, colIndex) =>
+      //           userInput[rowIndex][colIndex] ? grid[rowIndex][colIndex] : cell
+      //         )
+      //       );
+      //       setGrid(updatedGrid);
+      //       resolve();
+      //     }, 0.01);
+      //   });
+      // }
       setIsSolved(true); // Set solved status
     } catch (error) {
       console.error("Error posting the Sudoku grid:", error);
+      if (error.response && error.response.status === 400) {
+        setErrorAlert(true); 
+      }
     } finally {
+      setLoading(false)
       // Stop loading when response is received
     }
   };
@@ -98,6 +107,7 @@ const SudokuTable = () => {
         .map(() => Array(9).fill(false))
     );
     setIsSolved(false);
+    setErrorAlert(false)
   };
 
   return (
@@ -147,9 +157,129 @@ const SudokuTable = () => {
           >
             {isSolved ? "Reset Sudoku" : "Solve Sudoku"}
           </button> <br />
-          <ImageUploader setGrid={setGrid}/>
+          <ImageUploader setGrid={setGrid} setLoading={setLoading} isSolved={isSolved} resetGrid={resetGrid} setGotImage={setGotImage} setWarning={setWarning} gotImage={gotImage} warning={warning} />
         </>
       )}
+{errorAlert && (
+  <div
+    className="modal fade show "
+    style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+    tabIndex="-1"
+    role="dialog"
+  >
+    <div className="modal-dialog "  role="document">
+      <div className="modal-content" style={{backgroundColor:"#2c0b0e", color:"#ea868f"}}>
+        <div className="modal-header">
+          <h5 className="modal-title">Sudoku Cannot Be Solved</h5>
+          <button
+            type="button"
+            className="btn-close"
+            onClick={() => setErrorAlert(false)}
+          ></button>
+        </div>
+        <div className="modal-body">
+          <p>
+            The given Sudoku puzzle cannot be solved. Please check your input
+            or reset the grid.
+          </p>
+        </div>
+        <div className="modal-footer">
+          <button
+            type="button"
+            className="btn btn-danger"
+            onClick={() => {
+              resetGrid();
+              setErrorAlert(false);
+            }}
+            style={{ fontSize: "0.85rem" }} // smaller text
+          >
+            Reset Sudoku
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+  {gotImage && (
+    <div
+      className="modal fade show "
+      style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+      tabIndex="-1"
+      role="dialog"
+    >
+      <div className="modal-dialog "  role="document">
+        <div className="modal-content" style={{backgroundColor:"#2c0b0e", color:"#ea868f"}}>
+          <div className="modal-header">
+            <h5 className="modal-title">Cannot get sudoku from uploaded image</h5>
+            <button
+              type="button"
+              className="btn-close"
+              onClick={() => setGotImage(false)}
+            ></button>
+          </div>
+          <div className="modal-body">
+            <p>
+              From the uploaded image sudoku cannot be extracted
+            </p>
+          </div>
+          <div className="modal-footer">
+            <button
+              type="button"
+              className="btn btn-danger"
+              onClick={() => {
+                resetGrid();
+                setGotImage(false);
+              }}
+              style={{ fontSize: "0.85rem" }} // smaller text
+            >
+              Reset Sudoku
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  )}
+  {warning && (
+    <div
+      className="modal fade show "
+      style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+      tabIndex="-1"
+      role="dialog"
+    >
+      <div className="modal-dialog "  role="document">
+        <div className="modal-content" style={{backgroundColor:"#332701", color:"#ffda6a"}}>
+          <div className="modal-header">
+            <h5 className="modal-title">Model can be wrong</h5>
+            <button
+              type="button"
+              className="btn-close"
+              onClick={() => setWarning(false)}
+            ></button>
+          </div>
+          <div className="modal-body">
+            <p>
+              Please recheck all the cells of sudoku because some digits can be predicted wrong by the model
+            </p>
+          </div>
+          {/* <div className="modal-footer">
+            <button
+              type="button"
+              className="btn btn-danger"
+              onClick={() => {
+                resetGrid();
+                setWarning(false);
+              }}
+              style={{ fontSize: "0.85rem" }} // smaller text
+            >
+              Reset Sudoku
+            </button>
+          </div> */}
+        </div>
+      </div>
+    </div>
+  )}
+
+
     </>
   );
 };
