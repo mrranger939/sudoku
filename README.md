@@ -106,10 +106,16 @@ VITE_API_URL=http://localhost:8000
 
 ## 🖼️ Screenshots
 
-<img width="1358" height="650" alt="image" src="https://github.com/user-attachments/assets/79cb84f7-202e-4c49-8e8f-acf8f78faf92" />
-<img width="1358" height="650" alt="image" src="https://github.com/user-attachments/assets/86b39dee-bb7a-4133-b270-ff406f8658e1" />
-<img width="1358" height="650" alt="image" src="https://github.com/user-attachments/assets/25bcac73-deed-498d-b211-61987b82ffe2" />
-<img width="1358" height="650" alt="image" src="https://github.com/user-attachments/assets/ab005295-f79d-4d96-ab54-29b252da10cb" />
+<table>
+  <tr>
+    <td><img width="100%" src="https://github.com/user-attachments/assets/79cb84f7-202e-4c49-8e8f-acf8f78faf92" /></td>
+    <td><img width="100%" src="https://github.com/user-attachments/assets/86b39dee-bb7a-4133-b270-ff406f8658e1" /></td>
+  </tr>
+  <tr>
+    <td><img width="100%" src="https://github.com/user-attachments/assets/25bcac73-deed-498d-b211-61987b82ffe2" /></td>
+    <td><img width="100%" src="https://github.com/user-attachments/assets/ab005295-f79d-4d96-ab54-29b252da10cb" /></td>
+  </tr>
+</table>
 
 
 
